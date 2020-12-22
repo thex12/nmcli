@@ -86,6 +86,19 @@ class ConnectionControl(ConnectionControlInterface):
                 key, value = m.groups()
                 results[key] = None if value in ('--', '""') else value
         return results
+    
+    def show_active(self):
+        r = self._syscmd.nmcli(['connection', 'show', '--active'])
+        results = []
+        keys = None
+        for row in r.split('\n'):
+            m = re.search(r'^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)', row)
+            if m:
+                if keys is None:
+                    keys = m.groups()
+                else:
+                    results.append(dict(zip(keys, m.groups())))
+        return results
 
     def reload(self) -> None:
         self._syscmd.nmcli(['connection', 'reload'])

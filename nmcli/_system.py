@@ -27,7 +27,7 @@ class SystemCommand(SystemCommandInterface):
     def nmcli(self, parameters: CommandParameter) -> str:
         if isinstance(parameters, str):
             parameters = [parameters]
-        commands = ['sudo', 'nmcli'] + parameters
+        commands = ['nmcli'] + parameters
         try:
             r = self._run(commands, capture_output=True,
                           check=True, env={'LANG': 'C'})
