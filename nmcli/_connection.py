@@ -71,8 +71,8 @@ class ConnectionControl(ConnectionControlInterface):
     def delete(self, name: str) -> None:
         self._syscmd.nmcli(['connection', 'delete', name])
 
-    def up(self, name: str) -> None:
-        self._syscmd.nmcli(['connection', 'up', name])
+    def up(self, name: str, timeout: int) -> None:
+        self._syscmd.nmcli(['--wait', str(timeout), 'connection', 'up', name])
 
     def down(self, name: str) -> None:
         self._syscmd.nmcli(['connection', 'down', name])
